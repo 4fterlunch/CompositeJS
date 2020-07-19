@@ -16,6 +16,7 @@ function Composite(props) {
   this.uid = UID++;
   this.name = this.props.name || "";
   this.children = [];
+  this.parent = null;
 }
 
 Object.assign(Composite.prototype, {
@@ -23,6 +24,7 @@ Object.assign(Composite.prototype, {
     return this;
   },
   add(child) {
+    child.parent = this;
     this.children.push(child);
     return this;
   },
