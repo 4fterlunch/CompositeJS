@@ -14,23 +14,16 @@ var UID = 0;
 function Composite(props) {
   this.props = props || {};
   this.uid = UID++;
+  this.name = this.props.name || "";
+  this.children = [];
 }
-
-Object.defineProperties(Composite, {
-  name: {
-    value: ""
-  },
-  children: {
-    value: []
-  }
-});
 
 Object.assign(Composite.prototype, {
   update() {
     return this;
   },
   add(child) {
-    this.children.add(child);
+    this.children.push(child);
     return this;
   },
   remove(child) {
@@ -42,7 +35,15 @@ Object.assign(Composite.prototype, {
       return child.name === name;
     })
   }
-  
 });
 
-export {Composite}
+/**
+ * @description Functional composition method to add Composite to any object
+ * @param {*} obj 
+ */
+function addComposite(obj) {
+  Object.assign(obj, new Composite);
+  obj.prototype = Object.assign(Composite.prototype);
+}
+
+export {Composite, addComposite}
